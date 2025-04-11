@@ -4,6 +4,7 @@ parameters:
 #    parameter_name: value
 
 services:
-#    service_name:
-#        class: AppBundle\Directory\ClassName
-#        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
+    doctrine.orm.naming_strategy.underscore_number_aware:
+        class: Doctrine\ORM\Mapping\UnderscoreNamingStrategy
+        arguments: [false, true]
+    Psr\Log\LoggerInterface: '@monolog.logger'
