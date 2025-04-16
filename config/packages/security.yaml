@@ -1,0 +1,31 @@
+security:
+    encoders:
+        App\Entity\User:
+            algorithm: bcrypt
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            anonymous: true
+            provider: app_user_provider
+            form_login:
+                login_path: login
+                check_path: login_check
+                default_target_path: /
+                csrf_token_generator: security.csrf.token_manager
+            logout:
+                path: logout
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/users, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }

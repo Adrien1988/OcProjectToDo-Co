@@ -1,0 +1,3 @@
+imported_routes:
+    resource: routes/
+    type: directory
