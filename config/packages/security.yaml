@@ -1,7 +1,9 @@
 security:
-    encoders:
+    enable_authenticator_manager: true
+
+    password_hashers:
         App\Entity\User:
-            algorithm: bcrypt
+            algorithm: auto
 
     providers:
         app_user_provider:
@@ -15,17 +17,15 @@ security:
             security: false
 
         main:
-            anonymous: true
             provider: app_user_provider
-            form_login:
-                login_path: login
-                check_path: login_check
-                default_target_path: /
-                csrf_token_generator: security.csrf.token_manager
+            custom_authenticator: App\Security\LoginFormAuthenticator
             logout:
                 path: logout
+            remember_me:
+                secret: '%kernel.secret%'
+            lazy: true
 
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/users, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/users, roles: PUBLIC_ACCESS }
         - { path: ^/, roles: ROLE_USER }

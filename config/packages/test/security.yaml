@@ -1,0 +1,8 @@
+# security:
+#     firewalls:
+#         main:
+#             form_login:
+#                 # la même route que `login_path` pour l’interception
+#                 check_path: login
+#                 # désactive le CSRF dans les tests
+#                 csrf_token_generator: null

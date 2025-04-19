@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd"
-         bootstrap="vendor/autoload.php"
-         colors="true"
-         verbose="true"
-         stopOnFailure="false"
+<phpunit
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
+    bootstrap="vendor/autoload.php"
+    colors="true"
+    verbose="true"
+    stopOnFailure="false"
 >
     <php>
-        <ini name="error_reporting" value="-1" />
-        <server name="APP_ENV" value="test"/>
-        <server name="APP_DEBUG" value="1"/>
+        <ini    name="error_reporting" value="-1"/>
+        <server name="APP_ENV"         value="test"/>
+        <server name="APP_DEBUG"       value="1"/>
+        <!-- indique à Symfony où trouver le kernel -->
+        <server name="KERNEL_CLASS"    value="App\Kernel"/>
+
+        <!-- facultatif : masque les dépréciations dans la CI -->
+        <env    name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
     </php>
 
     <testsuites>
@@ -19,9 +25,15 @@
         </testsuite>
     </testsuites>
 
-    <coverage>
-        <include>
+    <!-- Couverture : avec PHPUnit 8.5, configure dans <logging> -->
+    <logging>
+        <log type="coverage-html" target="build/coverage"/>
+    </logging>
+
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
             <directory suffix=".php">src</directory>
-        </include>
-    </coverage>
+        </whitelist>
+    </filter>
+    
 </phpunit>
