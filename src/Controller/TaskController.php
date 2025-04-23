@@ -5,14 +5,14 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Attribute\Route;
 
 class TaskController extends AbstractController
 {
-
     private $em;
+
 
     public function __construct(EntityManagerInterface $em)
     {
@@ -23,10 +23,9 @@ class TaskController extends AbstractController
     #[Route('/tasks', name: 'task_list')]
     public function list()
     {
-
         $tasks = $this->em->getRepository(Task::class)->findAll();
 
-        return $this->render('task/list.html.twig', ['tasks' => $tasks,]);
+        return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 
 
@@ -54,7 +53,6 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
     public function edit(int $id, Request $request)
     {
-
         $task = $this->em->getRepository(Task::class)->find($id);
 
         if (!$task) {
@@ -83,7 +81,6 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
     public function toggleTask(int $id)
     {
-
         $task = $this->em->getRepository(Task::class)->find($id);
 
         if (!$task) {
@@ -102,7 +99,6 @@ class TaskController extends AbstractController
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
     public function deleteTask(int $id)
     {
-
         $task = $this->em->getRepository(Task::class)->find($id);
 
         if (!$task) {
@@ -116,4 +112,6 @@ class TaskController extends AbstractController
 
         return $this->redirectToRoute('task_list');
     }
+
+
 }

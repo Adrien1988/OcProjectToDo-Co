@@ -11,14 +11,13 @@ class TestUserFixture extends Fixture
 {
     private UserPasswordHasherInterface $hasher;
 
+
     public function __construct(UserPasswordHasherInterface $hasher)
     {
         $this->hasher = $hasher;
     }
 
-    /**
-     * @return void
-     */
+
     public function load(ObjectManager $manager): void
     {
         $user = new User();
@@ -31,4 +30,6 @@ class TestUserFixture extends Fixture
         $manager->persist($user);
         $manager->flush();
     }
+
+
 }

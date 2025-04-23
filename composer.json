@@ -30,16 +30,19 @@
       "doctrine/doctrine-migrations-bundle": "^3.4"
     },
     "require-dev": {
-      "doctrine/data-fixtures": "^1.8",
-      "doctrine/doctrine-fixtures-bundle": "^3.7",
-      "phpunit/phpunit": "^9.6",
-      "symfony/browser-kit": "^6.4",
-      "symfony/css-selector": "^6.4",
-      "symfony/debug-bundle": "^6.4",
-      "symfony/maker-bundle": "^1.53",
-      "symfony/phpunit-bridge": "^6.4",
-      "symfony/profiler-pack": "*",
-      "symfony/web-profiler-bundle": "^6.4"
+        "doctrine/data-fixtures": "^1.8",
+        "doctrine/doctrine-fixtures-bundle": "^3.7",
+        "escapestudios/symfony2-coding-standard": "3",
+        "friendsofphp/php-cs-fixer": "3.50",
+        "phpunit/phpunit": "^9.6",
+        "squizlabs/php_codesniffer": "3.9",
+        "symfony/browser-kit": "^6.4",
+        "symfony/css-selector": "^6.4",
+        "symfony/debug-bundle": "^6.4",
+        "symfony/maker-bundle": "^1.53",
+        "symfony/phpunit-bridge": "^6.4",
+        "symfony/profiler-pack": "*",
+        "symfony/web-profiler-bundle": "^6.4"
     },
     "extra": {
       "symfony": {

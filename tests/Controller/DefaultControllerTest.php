@@ -19,7 +19,7 @@ class DefaultControllerTest extends WebTestCase
         $client->followRedirect();
     }
 
-    public function testHomePageIsUp()
+    public function test_home_page_is_up()
     {
         $client = static::createClient();
         $this->logIn($client);
@@ -33,7 +33,7 @@ class DefaultControllerTest extends WebTestCase
         );
     }
 
-    public function testTaskListPageIsUp()
+    public function test_task_list_page_is_up()
     {
         $client = static::createClient();
         $this->logIn($client);
@@ -44,7 +44,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('.thumbnail, .alert')->count(), 'Aucune tâche ou message affiché');
     }
 
-    public function testTaskCreatePageDisplaysForm()
+    public function test_task_create_page_displays_form()
     {
         $client = static::createClient();
         $this->logIn($client);
@@ -55,7 +55,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('form')->count(), 'Le formulaire de création de tâche est introuvable');
     }
 
-    public function testUserListPageIsUp()
+    public function test_user_list_page_is_up()
     {
         $client = static::createClient();
         $this->logIn($client);
@@ -66,7 +66,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertContains('Liste des utilisateurs', $crawler->filter('h1')->text());
     }
 
-    public function testUserCreatePageDisplaysForm()
+    public function test_user_create_page_displays_form()
     {
         $client = static::createClient();
         $this->logIn($client);
@@ -77,7 +77,7 @@ class DefaultControllerTest extends WebTestCase
         $this->assertGreaterThan(0, $crawler->filter('form')->count(), 'Le formulaire de création d’utilisateur est introuvable');
     }
 
-    public function testLoginPageDisplaysForm()
+    public function test_login_page_displays_form()
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
@@ -95,7 +95,7 @@ class DefaultControllerTest extends WebTestCase
         }
     }
 
-    public function testLoginWithBadCredentialsFails()
+    public function test_login_with_bad_credentials_fails()
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');

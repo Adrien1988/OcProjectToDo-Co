@@ -5,15 +5,16 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Routing\Attribute\Route;
 
 class UserController extends AbstractController
 {
     private $em;
     private $passwordHasher;
+
 
     public function __construct(EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher)
     {
@@ -62,7 +63,7 @@ class UserController extends AbstractController
         $user = $this->em->getRepository(User::class)->find($id);
 
         if (!$user) {
-            throw $this->createNotFoundException("Utilisateur non trouvé");
+            throw $this->createNotFoundException('Utilisateur non trouvé');
         }
 
         $form = $this->createForm(UserType::class, $user, ['is_creation' => false]);
@@ -84,4 +85,6 @@ class UserController extends AbstractController
 
         return $this->render('user/edit.html.twig', ['form' => $form->createView(), 'user' => $user]);
     }
+
+
 }
