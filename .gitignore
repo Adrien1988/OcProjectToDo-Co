@@ -15,3 +15,17 @@
 /vendor/
 /web/bundles/
 .env.local
+
+###> friendsofphp/php-cs-fixer ###
+# Fichiers et configurations de PHP-CS-Fixer
+/.php-cs-fixer.cache
+/.php-cs-fixer.dist.php
+###< friendsofphp/php-cs-fixer ###
+
+###> squizlabs/php_codesniffer ###
+# Fichiers liés à PHP_CodeSniffer
+/.phpcs-cache
+/phpcs.xml
+/phpcs.xml.dist
+/phpcs.xsd
+###< squizlabs/php_codesniffer ###

@@ -5,15 +5,6 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Entité représentant une tâche à réaliser.
- *
- * Fournit les accesseurs/mutateurs ainsi qu'une méthode toggle
- * pour changer l'état d'achèvement. Toutes les propriétés et
- * méthodes sont désormais documentées afin que les analyseurs
- * statiques et les outils de qualité de code (Codacy, phpstan, etc.)
- * ne signalent plus l'absence de documentation.
- */
 #[ORM\Entity]
 #[ORM\Table]
 class Task
