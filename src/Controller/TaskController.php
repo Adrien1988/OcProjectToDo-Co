@@ -20,7 +20,7 @@ class TaskController extends AbstractController
     }
 
 
-      #[Route('/tasks', name: 'task_list')]
+    #[Route('/tasks', name: 'task_list')]
     public function list()
     {
 
@@ -30,8 +30,7 @@ class TaskController extends AbstractController
     }
 
 
-     #[Route('/tasks/create', name: 'task_create')]
-    
+    #[Route('/tasks/create', name: 'task_create')]
     public function create(Request $request)
     {
         $task = new Task();
@@ -53,7 +52,6 @@ class TaskController extends AbstractController
 
 
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
-
     public function edit(int $id, Request $request)
     {
 
@@ -83,7 +81,6 @@ class TaskController extends AbstractController
 
 
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
-
     public function toggleTask(int $id)
     {
 
@@ -101,9 +98,8 @@ class TaskController extends AbstractController
         return $this->redirectToRoute('task_list');
     }
 
-    
+
     #[Route('/tasks/{id}/delete', name: 'task_delete')]
-    
     public function deleteTask(int $id)
     {
 
