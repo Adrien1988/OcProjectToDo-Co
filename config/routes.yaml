@@ -1,3 +1,7 @@
-imported_routes:
-    resource: routes/
+app_controllers:
+    resource: '../src/Controller/'
+    type: attribute
+
+extra_yaml_routes:
+    resource: 'routes/'
     type: directory

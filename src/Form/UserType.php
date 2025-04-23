@@ -13,7 +13,7 @@ use App\Entity\User;
 
 class UserType extends AbstractType
 {
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('username', TextType::class, ['label' => "Nom d'utilisateur"])
@@ -28,7 +28,7 @@ class UserType extends AbstractType
             ->add('email', EmailType::class, ['label' => 'Adresse email']);
     }
 
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => User::class,

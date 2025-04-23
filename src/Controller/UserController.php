@@ -6,7 +6,7 @@ use App\Entity\User;
 use App\Form\UserType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -21,9 +21,8 @@ class UserController extends AbstractController
         $this->passwordHasher = $passwordHasher;
     }
 
-    /**
-     * @Route("/users", name="user_list")
-     */
+
+    #[Route('/users', name: 'user_list')]
     public function list()
     {
         $users = $this->em->getRepository(User::class)->findAll();
@@ -31,9 +30,8 @@ class UserController extends AbstractController
         return $this->render('user/list.html.twig', ['users' => $users]);
     }
 
-    /**
-     * @Route("/users/create", name="user_create")
-     */
+
+    #[Route('/users/create', name: 'user_create')]
     public function create(Request $request)
     {
         $user = new User();
@@ -57,9 +55,8 @@ class UserController extends AbstractController
         return $this->render('user/create.html.twig', ['form' => $form->createView()]);
     }
 
-    /**
-     * @Route("/users/{id}/edit", name="user_edit")
-     */
+
+    #[Route('/users/{id}/edit', name: 'user_edit')]
     public function edit(int $id, Request $request)
     {
         $user = $this->em->getRepository(User::class)->find($id);

@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Form\TaskType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,9 +19,8 @@ class TaskController extends AbstractController
         $this->em = $em;
     }
 
-    /**
-     * @Route("/tasks", name="task_list")
-     */
+
+      #[Route('/tasks', name: 'task_list')]
     public function list()
     {
 
@@ -30,9 +29,9 @@ class TaskController extends AbstractController
         return $this->render('task/list.html.twig', ['tasks' => $tasks,]);
     }
 
-    /**
-     * @Route("/tasks/create", name="task_create")
-     */
+
+     #[Route('/tasks/create', name: 'task_create')]
+    
     public function create(Request $request)
     {
         $task = new Task();
@@ -52,9 +51,9 @@ class TaskController extends AbstractController
         return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
 
-    /**
-     * @Route("/tasks/{id}/edit", name="task_edit")
-     */
+
+    #[Route('/tasks/{id}/edit', name: 'task_edit')]
+
     public function edit(int $id, Request $request)
     {
 
@@ -82,9 +81,9 @@ class TaskController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/tasks/{id}/toggle", name="task_toggle")
-     */
+
+    #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
+
     public function toggleTask(int $id)
     {
 
@@ -102,9 +101,9 @@ class TaskController extends AbstractController
         return $this->redirectToRoute('task_list');
     }
 
-    /**
-     * @Route("/tasks/{id}/delete", name="task_delete")
-     */
+    
+    #[Route('/tasks/{id}/delete', name: 'task_delete')]
+    
     public function deleteTask(int $id)
     {
 

@@ -4,14 +4,12 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
-    /**
-     * @Route("/login", name="login")
-     */
+    #[Route('/login', name: 'login')]
     public function login(Request $request, AuthenticationUtils $authenticationUtils)
     {
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -23,9 +21,7 @@ class SecurityController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/logout", name="logout")
-     */
+    #[Route('/logout', name: 'logout')]
     public function logout()
     {
         throw new \Exception('Ne devrait jamais être atteint : Symfony intercepte cette route.');
