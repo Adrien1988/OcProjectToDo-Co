@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -32,6 +34,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'json')]
     private array $roles = [];
+
+    /** @var Collection<int,Task> */
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Task::class, orphanRemoval: true)]
+    private Collection $tasks;
+
+
+    public function __construct()
+    {
+        $this->tasks = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -114,6 +126,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         // Nettoyage des données sensibles si nécessaire
+    }
+
+
+    public function getTasks(): Collection
+    {
+        return $this->tasks;
     }
 
 
