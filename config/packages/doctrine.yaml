@@ -1,0 +1,20 @@
+doctrine:
+    dbal:
+        url: '%env(resolve:DATABASE_URL)%'
+        charset: UTF8
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
+        enable_lazy_ghost_objects: true
+        controller_resolver:
+            auto_mapping: false
+        report_fields_where_declared: true
+        
+        mappings:
+            AppEntity:
+                is_bundle: false
+                type: attribute
+                dir: '%kernel.project_dir%/src/Entity'
+                prefix: 'App\Entity'
+                alias: App

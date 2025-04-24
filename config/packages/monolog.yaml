@@ -1,0 +1,10 @@
+monolog:
+    handlers:
+        main:
+            type: stream
+            path: 'C:/laragon/www/projet8-TodoList/var/logs/dev.log'  # Remplace par un chemin absolu
+            level: debug
+        security:
+            type: stream
+            path: 'C:/laragon/www/projet8-TodoList/var/logs/security.log'  # Idem
+            level: info

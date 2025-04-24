@@ -1,0 +1,30 @@
+security:
+
+    password_hashers:
+        App\Entity\User:
+            algorithm: auto
+
+    providers:
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: username
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            provider: app_user_provider
+            custom_authenticator: App\Security\LoginFormAuthenticator
+            logout:
+                path: logout
+            remember_me:
+                secret: '%kernel.secret%'
+            lazy: true
+
+    access_control:
+        - { path: ^/login, roles: PUBLIC_ACCESS }
+        - { path: ^/users, roles: PUBLIC_ACCESS }
+        - { path: ^/, roles: ROLE_USER }

@@ -1,0 +1,25 @@
+framework:
+    secret: '%env(APP_SECRET)%'
+    router:
+        utf8: true
+    csrf_protection: true
+    form: true
+    session:
+        storage_factory_id: session.storage.factory.native
+        handler_id: null
+        cookie_secure: auto
+        cookie_samesite: lax
+    default_locale: fr
+    translator:
+        fallbacks: ['fr']
+    profiler:
+        only_exceptions: false
+
+    http_method_override: false
+    handle_all_throwables: true
+    validation:
+        email_validation_mode: html5
+    php_errors:
+        log: true
+    annotations:
+        enabled: false
