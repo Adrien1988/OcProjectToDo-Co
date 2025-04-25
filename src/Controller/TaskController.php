@@ -4,40 +4,43 @@ namespace App\Controller;
 
 use App\Entity\Task;
 use App\Form\TaskType;
+use App\Repository\TaskRepository;
+use App\Security\Voter\TaskVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class TaskController extends AbstractController
 {
-    private $em;
 
 
-    public function __construct(EntityManagerInterface $em)
+    public function __construct(private readonly EntityManagerInterface $em)
     {
-        $this->em = $em;
     }
 
 
     #[Route('/tasks', name: 'task_list')]
-    public function list()
+    public function list(TaskRepository $taskRepository): Response
     {
-        $tasks = $this->em->getRepository(Task::class)->findAll();
+        $tasks = $taskRepository->findAllWithAuthor();
 
         return $this->render('task/list.html.twig', ['tasks' => $tasks]);
     }
 
 
     #[Route('/tasks/create', name: 'task_create')]
-    public function create(Request $request)
+    public function create(Request $request): Response
     {
-        $task = new Task();
-        $form = $this->createForm(TaskType::class, $task);
 
-        $form->handleRequest($request);
+        $this->denyAccessUnlessGranted(TaskVoter::CREATE);
+
+        $task = new Task();
+        $form = $this->createForm(TaskType::class, $task)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $task->setAuthor($this->getUser());
             $this->em->persist($task);
             $this->em->flush();
 
@@ -51,17 +54,14 @@ class TaskController extends AbstractController
 
 
     #[Route('/tasks/{id}/edit', name: 'task_edit')]
-    public function edit(int $id, Request $request)
+    public function edit(int $id, Request $request): Response
     {
-        $task = $this->em->getRepository(Task::class)->find($id);
+        $task = $this->em->find(Task::class, $id)
+            ?? throw $this->createNotFoundException('Tâche non trouvée');
 
-        if (!$task) {
-            throw $this->createNotFoundException('Tâche non trouvée');
-        }
+        $this->denyAccessUnlessGranted(TaskVoter::EDIT, $task);
 
-        $form = $this->createForm(TaskType::class, $task);
-
-        $form->handleRequest($request);
+        $form = $this->createForm(TaskType::class, $task)->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->flush();
@@ -79,31 +79,29 @@ class TaskController extends AbstractController
 
 
     #[Route('/tasks/{id}/toggle', name: 'task_toggle')]
-    public function toggleTask(int $id)
+    public function toggleTask(int $id): Response
     {
-        $task = $this->em->getRepository(Task::class)->find($id);
+        $task = $this->em->find(Task::class, $id)
+            ?? throw $this->createNotFoundException('Tâche non trouvée');
 
-        if (!$task) {
-            throw $this->createNotFoundException('Tâche non trouvée');
-        }
+        $this->denyAccessUnlessGranted(TaskVoter::EDIT, $task);
 
         $task->toggle(!$task->isDone());
         $this->em->flush();
 
-        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle()));
+        $this->addFlash('success', sprintf('La tâche %s a bien été marquée comme faite.', $task->getTitle(), $task->isDone() ? 'faite' : 'à faire'));
 
         return $this->redirectToRoute('task_list');
     }
 
 
-    #[Route('/tasks/{id}/delete', name: 'task_delete')]
-    public function deleteTask(int $id)
+    #[Route('/tasks/{id}/delete', name: 'task_delete', methods: ['POST', 'GET'])]
+    public function deleteTask(int $id): Response
     {
-        $task = $this->em->getRepository(Task::class)->find($id);
+        $task = $this->em->find(Task::class, $id)
+            ?? throw $this->createNotFoundException('Tâche non trouvée');
 
-        if (!$task) {
-            throw $this->createNotFoundException('Tâche non trouvée');
-        }
+        $this->denyAccessUnlessGranted(TaskVoter::DELETE, $task);
 
         $this->em->remove($task);
         $this->em->flush();
