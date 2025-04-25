@@ -4,25 +4,27 @@
 
 namespace App\DataFixtures;
 
+use Faker\Factory;
 use App\Entity\Task;
 use App\Entity\User;
-use Doctrine\Bundle\FixturesBundle\Fixture;
+use Faker\Generator;
 use Doctrine\Persistence\ObjectManager;
-use Faker\Factory;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixture extends Fixture
 {
 
+    private Generator $faker;
 
     public function __construct(private UserPasswordHasherInterface $hasher)
     {
+        $this->faker = Factory::create('fr_FR');
     }
 
 
     public function load(ObjectManager $manager): void
     {
-        $faker = Factory::create('fr_FR');
 
         /* ---------- Utilisateurs ---------- */
         // 1. admin
@@ -52,8 +54,8 @@ class AppFixture extends Fixture
         /* ---------- Tâches pour John ---------- */
         for ($i = 0; $i < 5; ++$i) {
             $task = new Task();
-            $task->setTitle($faker->sentence(4));
-            $task->setContent($faker->paragraph(2));
+            $task->setTitle($this->faker->sentence(4));
+            $task->setContent($this->faker->paragraph(2));
             $task->setAuthor($john);
             $task->isDone(false);
             $manager->persist($task);
@@ -62,8 +64,8 @@ class AppFixture extends Fixture
         /* ---------- Tâches “anonymes” ---------- */
         for ($i = 0; $i < 5; ++$i) {
             $task = new Task();
-            $task->setTitle('[Anon] '.$faker->sentence(4));
-            $task->setContent($faker->paragraph(2));
+            $task->setTitle('[Anon] '.$this->faker->sentence(4));
+            $task->setContent($this->faker->paragraph(2));
             $task->setAuthor($anon);
             $task->isDone(false);
             $manager->persist($task);
