@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\CallbackTransformer;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
@@ -11,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class UserType extends AbstractType
+class RegistrationFormType extends AbstractType
 {
 
 
@@ -28,6 +30,28 @@ class UserType extends AbstractType
                 'second_options'  => ['label' => 'Tapez le mot de passe à nouveau'],
             ])
             ->add('email', EmailType::class, ['label' => 'Adresse email']);
+
+        // Si on est en édition (is_creation=false), on expose le champ roles
+        if (! $options['is_creation']) {
+            $builder->add('roles', ChoiceType::class, [
+                'label'    => 'Rôles',
+                'choices'  => [
+                    'Utilisateur'    => 'ROLE_USER',
+                    'Administrateur' => 'ROLE_ADMIN',
+                ],
+                'expanded' => false,
+                'multiple' => false,
+                'attr'     => ['class' => 'form-select'],
+            ]);
+
+            $builder->get('roles')
+                ->addModelTransformer(new CallbackTransformer(
+                    // transform array (from DB) to single string for the form
+                    fn ($rolesArray) => is_array($rolesArray) && count($rolesArray) ? $rolesArray[0] : null,
+                    // transform the submitted string back to a one-element array
+                    fn ($roleString) => [$roleString]
+                ));
+        }
     }
 
 

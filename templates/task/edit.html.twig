@@ -1,11 +1,52 @@
+{# templates/task/edit.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block body %}
-    <div class="row">
-        {{ form_start(form, {'action' : path('task_edit', { 'id' : task.id })}) }}
-            {{ form_widget(form) }}
+{% block page_title %}
+  <h1>Éditer une tâche</h1>
+{% endblock %}
 
-            <button type="submit" class="btn btn-success pull-right">Modifier</button>
+{% block body %}
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+
+        {{ form_start(form, { action: path('task_edit', { id: task.id }) }) }}
+
+          <div class="mb-3">
+            {{ form_row(form.title, {
+              label: 'Titre',
+              attr: {
+                class: 'form-control',
+                placeholder: 'Titre de la tâche'
+              }
+            }) }}
+          </div>
+
+          <div class="mb-3">
+            {{ form_row(form.content, {
+              label: 'Description',
+              attr: {
+                class: 'form-control',
+                placeholder: 'Décrivez la tâche…',
+                rows: 5
+              }
+            }) }}
+          </div>
+
+          {# Insérez ici d’autres champs éventuels (#deadline, #priority…) #}
+
+          <div class="d-flex justify-content-between">
+            <a href="{{ path('task_list') }}" class="btn btn-outline-secondary">
+              ← Retour à la liste
+            </a>
+            <button type="submit" class="btn btn-success">
+              Enregistrer
+            </button>
+          </div>
+
         {{ form_end(form) }}
+
+      </div>
     </div>
+  </div>
 {% endblock %}

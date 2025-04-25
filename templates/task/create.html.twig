@@ -1,13 +1,50 @@
 {% extends 'base.html.twig' %}
 
+{% block page_title %}
+  <h1>Créer une nouvelle tâche</h1>
+{% endblock %}
+
 {% block body %}
-    <div class="row">
-        {{ form_start(form, {'action' : path('task_create')}) }}
-            {{ form_widget(form) }}
+	<div class="container my-5">
+		<div class="row justify-content-center">
+			<div class="col-md-8">
+				{{ form_start(form, { action: path('task_create'), attr: { novalidate: 'novalidate' } }) }}
 
-            <button type="submit" class="btn btn-success pull-right">Ajouter</button>
-        {{ form_end(form) }}
+				<div class="mb-3">
+					{{ form_row(form.title, {
+              label: 'Titre',
+              attr: { 
+                class: 'form-control',
+                placeholder: 'Entrez le titre de la tâche…'
+              }
+            }) }}
+				</div>
 
-        <a href="{{ path('task_list') }}" class="btn btn-primary">Retour à la liste des tâches</a>
-    </div>
+				<div class="mb-3">
+					{{ form_row(form.content, {
+              label: 'Description',
+              attr: {
+                class: 'form-control',
+                placeholder: 'Décrivez la tâche…',
+                rows: 5
+              }
+            }) }}
+				</div>
+
+				{# Si vous avez d'autres champs, les insérer ici de la même façon #}
+
+				<div class="d-flex justify-content-between">
+					<a href="{{ path('task_list') }}" class="btn btn-outline-secondary">
+						← Retour à la liste
+					</a>
+					<button type="submit" class="btn btn-success">
+						Ajouter
+					</button>
+				</div>
+
+				{{ form_end(form) }}
+
+			</div>
+		</div>
+	</div>
 {% endblock %}
