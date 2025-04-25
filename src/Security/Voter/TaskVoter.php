@@ -16,7 +16,7 @@ class TaskVoter extends Voter
 
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return in_array($attribute, [self::EDIT, self::DELETE, self::CREATE])
+        return \in_array($attribute, [self::EDIT, self::DELETE, self::CREATE], true)
             && ($attribute === self::CREATE || $subject instanceof Task);
     }
 
@@ -34,18 +34,45 @@ class TaskVoter extends Voter
             return false;
         }
 
-        // les admins peuvent tout faire
-        if (in_array('ROLE_ADMIN', $user->getRoles(), true)) {
+        // CREATE : tout utilisateur authentifié peut créer
+        if ($attribute === self::CREATE) {
             return true;
         }
 
-        // règle par opération
-        return match ($attribute) {
-            self::CREATE => true,
-            self::EDIT   => $subject?->getAuthor() === $user,
-            self::DELETE => $subject?->getAuthor() === $user,
-            default      => false,
-        };
+        // À ce stade $subject est une Task
+        $task = $subject;
+        $author = $task->getAuthor();
+
+        $isAdmin = \in_array('ROLE_ADMIN', $user->getRoles(), true);
+        $isOwner = $author === $user;
+
+        // ----- Règles -----
+        if ($attribute === self::EDIT) {
+            // auteur OU (admin ET auteur = anonyme)
+            return $isOwner || ($isAdmin && $this->isAnonymous($author));
+        }
+
+        if ($attribute === self::DELETE) {
+            // auteur
+            if ($isOwner) {
+                return true;
+            }
+
+            // admin peut supprimer si tâche “anonyme”
+            if ($isAdmin && $this->isAnonymous($author)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        return false;
+    }
+
+
+    private function isAnonymous(?User $author): bool
+    {
+        return $author && $author->getUsername() === 'anonyme';
     }
 
 
