@@ -3,14 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\UserType;
+use App\Form\RegistrationFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
-class UserController extends AbstractController
+class RegistrationController extends AbstractController
 {
     private $em;
     private $passwordHasher;
@@ -36,12 +36,12 @@ class UserController extends AbstractController
     public function create(Request $request)
     {
         $user = new User();
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createForm(RegistrationFormType::class, $user);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $plainPassword = $form->get('password')->getData(); // Récupéré manuellement
+            $plainPassword = $form->get('password')->getData();
             $hashedPassword = $this->passwordHasher->hashPassword($user, $plainPassword);
             $user->setPassword($hashedPassword);
 
@@ -66,7 +66,7 @@ class UserController extends AbstractController
             throw $this->createNotFoundException('Utilisateur non trouvé');
         }
 
-        $form = $this->createForm(UserType::class, $user, ['is_creation' => false]);
+        $form = $this->createForm(RegistrationFormType::class, $user, ['is_creation' => false]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

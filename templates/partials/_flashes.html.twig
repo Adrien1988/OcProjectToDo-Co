@@ -1,0 +1,18 @@
+{# templates/partials/_flashes.html.twig #}
+{% for type, classes in {
+    'success': 'alert alert-success',
+    'error':   'alert alert-danger',
+    'warning': 'alert alert-warning',
+    'info':    'alert alert-info'
+} %}
+    {% for message in app.session.flashBag.get(type) %}
+        <div class="{{ classes }}" role="alert">
+            {% if type == 'success' %}
+                <strong>Superbe !</strong>
+            {% elseif type == 'error' %}
+                <strong>Oops !</strong>
+            {% endif %}
+            {{ message }}
+        </div>
+    {% endfor %}
+{% endfor %}

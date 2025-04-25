@@ -43,6 +43,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->tasks = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
     }
 
 
@@ -108,16 +109,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return $this->roles;
     }
 
 
     public function setRoles(array $roles): self
     {
-        $this->roles = $roles;
+        if (in_array('ROLE_ADMIN', $roles, true)) {
+            $this->roles = ['ROLE_ADMIN'];
+        } else {
+            $this->roles = ['ROLE_USER'];
+        }
 
         return $this;
     }

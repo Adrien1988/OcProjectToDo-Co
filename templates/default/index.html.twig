@@ -1,14 +1,40 @@
+{# templates/home.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block header_title %}
-    <h1>Bienvenue sur Todo List, l'application vous permettant de gérer l'ensemble de vos tâches sans effort !</h1>
+{# On surcharge le bloc `header`, qui inclut votre partial `_header.html.twig`, 
+   mais ici on remplace complètement par un jumbotron stylé #}
+{% block header %}
+  <div class="bg-primary text-white rounded py-5 mb-4">
+    <div class="container text-center">
+      <h1 class="display-4 mb-3">
+        Bienvenue sur <strong>Todo List</strong>
+      </h1>
+      <p class="lead">
+        Gérez l'ensemble de vos tâches sans effort grâce à notre application simple et rapide.
+      </p>
+      <img src="{{ asset('img/todolist_homepage.jpg') }}" alt="Todo List" class="img-fluid rounded shadow">
+    </div>
+  </div>
 {% endblock %}
 
 {% block body %}
-
-    <div class="row">
-        <a href="{{ path('task_create') }}" class="btn btn-success">Créer une nouvelle tâche</a>
-        <a href="{{ path('task_list') }}" class="btn btn-info">Consulter la liste des tâches à faire</a>
-        <a href="#" class="btn btn-secondary">Consulter la liste des tâches terminées</a>
+  <div class="container">
+    <div class="row justify-content-center g-3">
+      <div class="col-auto">
+        <a href="{{ path('task_create') }}" class="btn btn-success btn-lg">
+          <i class="bi-plus-lg"></i> Créer une tâche
+        </a>
+      </div>
+      <div class="col-auto">
+        <a href="{{ path('task_list') }}" class="btn btn-info btn-lg">
+          <i class="bi-list-ul"></i> Tâches à faire
+        </a>
+      </div>
+      <div class="col-auto">
+        <a href="#" class="btn btn-secondary btn-lg">
+          <i class="bi-check-circle"></i> Tâches terminées
+        </a>
+      </div>
     </div>
+  </div>
 {% endblock %}

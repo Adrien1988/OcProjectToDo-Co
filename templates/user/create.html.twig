@@ -1,14 +1,55 @@
+{# templates/user/create.html.twig #}
 {% extends 'base.html.twig' %}
 
-{% block header_title %}<h1>Créer un utilisateur</h1>{% endblock %}
-{% block header_img %}{% endblock %}
+{% block page_title %}
+  <h1>Créer un utilisateur</h1>
+{% endblock %}
 
 {% block body %}
-    <div class="row">
-        {{ form_start(form, {'action' : path('user_create')}) }}
-            {{ form_widget(form) }}
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
 
-            <button type="submit" class="btn btn-success pull-right">Ajouter</button>
+        {{ form_start(form, { action: path('user_create') }) }}
+
+          {# — Nom d’utilisateur — #}
+          <div class="mb-3">
+            {{ form_row(form.username, {
+              label: 'Nom d’utilisateur',
+              attr: { class: 'form-control', placeholder: 'Nom d’utilisateur' }
+            }) }}
+          </div>
+
+          {# — E-mail — #}
+          <div class="mb-3">
+            {{ form_row(form.email, {
+              label: 'Adresse e-mail',
+              attr: { class: 'form-control', placeholder: 'E-mail' }
+            }) }}
+          </div>
+
+          {# — Mot de passe (répété) — #}
+          <div class="mb-3">
+            {{ form_row(form.password, {
+              label: 'Mot de passe',
+              attr: { class: 'form-control', placeholder: 'Mot de passe' }
+            }) }}
+          </div>
+
+          {# Aucun champ “roles” à la création publique #}
+
+          <div class="d-flex justify-content-between">
+            <a href="{{ path('user_list') }}" class="btn btn-outline-secondary">
+              ← Retour à la liste
+            </a>
+            <button type="submit" class="btn btn-success">
+              Ajouter
+            </button>
+          </div>
+
         {{ form_end(form) }}
+
+      </div>
     </div>
+  </div>
 {% endblock %}
