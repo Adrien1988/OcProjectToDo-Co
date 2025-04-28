@@ -6,9 +6,9 @@ namespace App\DataFixtures;
 
 use App\Entity\Task;
 use App\Entity\User;
-use Faker\Generator;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Persistence\ObjectManager;
+use Faker\Generator;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixture extends Fixture
@@ -16,7 +16,7 @@ class AppFixture extends Fixture
 
 
     public function __construct(private readonly UserPasswordHasherInterface $hasher,
-    private readonly Generator $faker )
+        private readonly Generator $faker)
     {
     }
 

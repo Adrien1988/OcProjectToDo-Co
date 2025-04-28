@@ -1,39 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/8.5/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
     bootstrap="vendor/autoload.php"
     colors="true"
-    verbose="true"
-    stopOnFailure="false"
->
-    <php>
-        <ini    name="error_reporting" value="-1"/>
-        <server name="APP_ENV"         value="test"/>
-        <server name="APP_DEBUG"       value="1"/>
-        <!-- indique à Symfony où trouver le kernel -->
-        <server name="KERNEL_CLASS"    value="App\Kernel"/>
+    stopOnFailure="false">
 
-        <!-- facultatif : masque les dépréciations dans la CI -->
-        <env    name="SYMFONY_DEPRECATIONS_HELPER" value="weak"/>
+    <php>
+        <ini name="error_reporting" value="-1" />
+        <server name="APP_ENV" value="test" />
+        <server name="APP_DEBUG" value="1" />
+        <server name="KERNEL_CLASS" value="App\\Kernel" />
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
 
     <testsuites>
-        <testsuite name="Project Test Suite">
-            <directory>tests</directory>
+        <testsuite name="unit">
+            <directory suffix="Test.php">tests/Unit</directory>
         </testsuite>
     </testsuites>
 
-    <!-- Couverture : avec PHPUnit 8.5, configure dans <logging> -->
-    <logging>
-        <log type="coverage-html" target="build/coverage"/>
-    </logging>
+    <!-- zone de code à analyser -->
+    <source>
+        <include>
+            <directory suffix=".php">src/Entity</directory>
+            <directory suffix=".php">src/Security</directory>
+        </include>
 
-    <filter>
-        <whitelist processUncoveredFilesFromWhitelist="true">
-            <directory suffix=".php">src</directory>
-        </whitelist>
-    </filter>
-    
+        <exclude>
+            <file>src/Security/LoginFormAuthenticator.php</file>
+        </exclude>
+    </source>
+
+    <!-- rapports + option pour compter les fichiers non exécutés -->
+    <coverage includeUncoveredFiles="true">
+        <report>
+            <text outputFile="php://stdout" />
+            <html outputDirectory="build/coverage" />
+        </report>
+    </coverage>
+
+    <extensions>
+        <bootstrap class="RobinIngelbrecht\PHPUnitCoverageTools\PhpUnitExtension">
+            <parameter name="exitOnLowCoverage" value="1" />
+        </bootstrap>
+    </extensions>
+
 </phpunit>
