@@ -4,6 +4,13 @@
     <img src="{{ asset('img/Logo_OpenClassrooms.png') }}" alt="OpenClassrooms"/>
 
     <div class="ms-auto">
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a href="{{ path('user_list') }}" class="btn btn-outline-primary me-3">
+          Utilisateurs
+        </a>
+      {% endif %}
+      
       {# Si l’utilisateur **n’est pas** connecté, on propose S’enregistrer et Se connecter #}
       {% if not app.user %}
         <a href="{{ path('user_create') }}" class="btn btn-primary me-2">S’enregistrer</a>
