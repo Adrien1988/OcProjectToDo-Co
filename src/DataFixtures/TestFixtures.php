@@ -1,22 +1,28 @@
 <?php
+
 namespace App\DataFixtures;
 
 use App\Entity\Task;
 use App\Entity\User;
-use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
+use Doctrine\Persistence\ObjectManager;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class TestFixtures extends Fixture implements FixtureGroupInterface
 {
+
 
     public static function getGroups(): array
     {
         return ['test'];
     }
 
-    public function __construct(private UserPasswordHasherInterface $hasher) {}
+
+    public function __construct(private UserPasswordHasherInterface $hasher)
+    {
+    }
+
 
     public function load(ObjectManager $om): void
     {
@@ -56,4 +62,6 @@ class TestFixtures extends Fixture implements FixtureGroupInterface
 
         $om->flush();
     }
+
+
 }

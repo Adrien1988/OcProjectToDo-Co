@@ -46,8 +46,8 @@ class RegistrationFormType extends AbstractType
 
             $builder->get('roles')
                 ->addModelTransformer(new CallbackTransformer(
-                    fn(array $rolesArray) => $rolesArray[0] ?? null,
-                    fn(?string $roleString) => $roleString ? [$roleString] : []
+                    fn (array $rolesArray) => $rolesArray[0] ?? null,
+                    fn (?string $roleString) => $roleString ? [$roleString] : []
 
                 ));
         }
@@ -61,4 +61,6 @@ class RegistrationFormType extends AbstractType
             'is_creation' => true,
         ]);
     }
+
+
 }

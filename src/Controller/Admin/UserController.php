@@ -1,5 +1,7 @@
 <?php
+
 // src/Controller/Admin/UserController.php
+
 namespace App\Controller\Admin;
 
 use App\Entity\User;
@@ -14,12 +16,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/users', name: 'admin_user_')]
 class UserController extends AbstractController
 {
+
+
     #[Route('', name: 'list')]
     public function list(EntityManagerInterface $em): Response
     {
         $users = $em->getRepository(User::class)->findAll();
+
         return $this->render('admin/user/list.html.twig', compact('users'));
     }
+
 
     #[Route('/create', name: 'create')]
     public function create(
@@ -41,6 +47,7 @@ class UserController extends AbstractController
             $em->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été ajouté.");
+
             return $this->redirectToRoute('admin_user_list');
         }
 
@@ -48,6 +55,7 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
 
     #[Route('/{id}/edit', name: 'edit')]
     public function edit(
@@ -73,9 +81,11 @@ class UserController extends AbstractController
                     $passwordHasher->hashPassword($user, $plain)
                 );
             }
+
             $em->flush();
 
             $this->addFlash('success', "L'utilisateur a bien été modifié");
+
             return $this->redirectToRoute('admin_user_list');
         }
 
@@ -85,7 +95,8 @@ class UserController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/delete', name: 'delete', methods: ['POST','GET'])]
+
+    #[Route('/{id}/delete', name: 'delete', methods: ['POST', 'GET'])]
     public function delete(int $id, EntityManagerInterface $em): Response
     {
         $user = $em->getRepository(User::class)->find($id);
@@ -97,4 +108,6 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('admin_user_list');
     }
+
+
 }
