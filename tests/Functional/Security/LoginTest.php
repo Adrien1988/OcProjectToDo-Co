@@ -12,10 +12,10 @@ class LoginTest extends BaseWebTestCase
     public function test_login_page_is_accessible(): void
     {
         $client  = $this->client;
-        $crawler = $client->request('GET', '/login');
+        $client->request('GET', '/login');
 
-        $this->assertResponseIsSuccessful();          // code 200
-        $this->assertSelectorExists('form');          // un <form> est présent
+        $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('form');
         $this->assertSelectorExists('input[name="_username"]');
         $this->assertSelectorExists('input[name="_password"]');
     }
@@ -51,7 +51,7 @@ class LoginTest extends BaseWebTestCase
         $client->request('GET', '/login');
 
         $client->submitForm('Se connecter', [
-            '_username' => 'admin',   // définis dans TestFixtures
+            '_username' => 'admin',
             '_password' => 'root',
         ]);
 
@@ -60,7 +60,7 @@ class LoginTest extends BaseWebTestCase
         $client->followRedirect();
 
         // On doit arriver sur la route d’accueil
-        $this->assertRouteSame('homepage');           // adapte si besoin
+        $this->assertRouteSame('homepage');
         $this->assertSelectorTextContains('body', 'Bienvenue');
     }
 
