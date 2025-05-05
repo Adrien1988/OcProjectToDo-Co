@@ -4,13 +4,14 @@
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
     bootstrap="vendor/autoload.php"
     colors="true"
-    stopOnFailure="false">
+    stopOnFailure="false"
+    processIsolation="true">
 
     <php>
         <ini name="error_reporting" value="-1" />
         <server name="APP_ENV" value="test" />
         <server name="APP_DEBUG" value="1" />
-        <server name="KERNEL_CLASS" value="App\\Kernel" />
+        <server name="APP_SECRET" value="test-secret" />
         <env name="SYMFONY_DEPRECATIONS_HELPER" value="weak" />
     </php>
 
@@ -18,17 +19,22 @@
         <testsuite name="unit">
             <directory suffix="Test.php">tests/Unit</directory>
         </testsuite>
+
+        <testsuite name="functional">
+            <directory suffix="Test.php">tests/Functional</directory>
+        </testsuite>
     </testsuites>
 
     <!-- zone de code à analyser -->
     <source>
         <include>
-            <directory suffix=".php">src/Entity</directory>
-            <directory suffix=".php">src/Security</directory>
+            <directory suffix=".php">src</directory>
         </include>
 
         <exclude>
+            <directory suffix=".php">src/DataFixtures</directory>
             <file>src/Security/LoginFormAuthenticator.php</file>
+            <file>src/Kernel.php</file>
         </exclude>
     </source>
 

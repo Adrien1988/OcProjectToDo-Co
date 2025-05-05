@@ -13,7 +13,7 @@
 !var/SymfonyRequirements.php
 /vendor/
 /web/bundles/
-.env.local
+/.env.local
 /.phpunit.result.cache
 
 ###> friendsofphp/php-cs-fixer ###

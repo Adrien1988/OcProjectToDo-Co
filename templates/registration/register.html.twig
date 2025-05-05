@@ -1,10 +1,8 @@
-{# templates/user/edit.html.twig #}
+{# templates/user/create.html.twig #}
 {% extends 'base.html.twig' %}
 
 {% block page_title %}
-  <h1>
-    Modifier le profil&nbsp;: <strong>{{ user.username }}</strong>
-  </h1>
+  <h1>Inscription</h1>
 {% endblock %}
 
 {% block body %}
@@ -12,45 +10,44 @@
     <div class="row justify-content-center">
       <div class="col-md-8">
 
-        {{ form_start(form, { action: path('user_edit', { id: user.id }) }) }}
+        {{ form_start(registration, { action: path('app_register') }) }}
 
+          {# — Nom d’utilisateur — #}
           <div class="mb-3">
-            {{ form_row(form.username, {
+            {{ form_row(registration.username, {
               label: 'Nom d’utilisateur',
               attr: { class: 'form-control', placeholder: 'Nom d’utilisateur' }
             }) }}
           </div>
 
+          {# — E-mail — #}
           <div class="mb-3">
-            {{ form_row(form.email, {
+            {{ form_row(registration.email, {
               label: 'Adresse e-mail',
               attr: { class: 'form-control', placeholder: 'E-mail' }
             }) }}
           </div>
 
+          {# — Mot de passe (répété) — #}
           <div class="mb-3">
-            {{ form_row(form.password, {
-              label: 'Nouveau mot de passe',
-              attr: { class: 'form-control', placeholder: 'Laisser vide pour ne pas changer' }
+            {{ form_row(registration.password, {
+              label: 'Mot de passe',
+              attr: { class: 'form-control', placeholder: 'Mot de passe' }
             }) }}
           </div>
 
-          {% if form.roles is defined %}
-            <div class="mb-4">
-              {{ form_row(form.roles, { label: 'Rôle' }) }}
-            </div>
-          {% endif %}
+          {# Aucun champ “roles” à la création publique #}
 
           <div class="d-flex justify-content-between">
-            <a href="{{ path('user_list') }}" class="btn btn-outline-secondary">
-              ← Retour à la liste
+            <a href="{{ path('homepage') }}" class="btn btn-outline-secondary">
+              ← Retour à l'acceuil
             </a>
             <button type="submit" class="btn btn-success">
               Enregistrer
             </button>
           </div>
 
-        {{ form_end(form) }}
+        {{ form_end(registration) }}
 
       </div>
     </div>
