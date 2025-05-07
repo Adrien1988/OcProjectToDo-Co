@@ -1,27 +1,22 @@
-name: CI – tests & code coverage
+name: CI – tests & coverage
 
-on: [push, pull_request]           # lance‑le à chaque push ou PR
+on: [push, pull_request]
 
 jobs:
   coverage:
     runs-on: ubuntu-latest
-
     steps:
-      # 1. Clone du dépôt
-      - uses: actions/checkout@v4    # @v3 si vous étiez sur GH Enterprise ancien
+      - uses: actions/checkout@v4
 
-      # 2. Préparation de l’environnement (exemple Node.js)
+      # Si votre projet est VRAIMENT en Node :
       - uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      # 3. Tests + génération du rapport Cobertura
       - run: |
-          npm ci
+          npm install                         # ← remplace npm ci
           npm test -- --coverage --coverageReporters=cobertura
-          #      ↳ crée coverage/cobertura-coverage.xml
 
-      # 4. Envoi vers Codacy
       - name: Upload coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
