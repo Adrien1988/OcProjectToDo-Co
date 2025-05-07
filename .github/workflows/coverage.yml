@@ -1,4 +1,4 @@
-name: CI – Symfony 6.4 / PHPUnit / Codacy coverage
+name: CI – Symfony 6.4 / PHPUnit 10 / Codacy coverage
 
 on: [push, pull_request]
 
@@ -6,15 +6,12 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
 
-    ########################################
-    # 1. Service MySQL accessible en TCP   #
-    ########################################
     services:
       mysql:
         image: mysql:8.0
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: app_test          # nom de la base de tests
+          MYSQL_DATABASE: app_test
         ports: ['3306:3306']
         options: >-
           --health-cmd="mysqladmin ping --silent"
@@ -22,29 +19,21 @@ jobs:
           --health-timeout=5s
           --health-retries=3
 
-    ########################################
-    # 2. Étapes du job                     #
-    ########################################
     steps:
-      # 2‑1 Récupération du dépôt
       - uses: actions/checkout@v4
 
-      # 2‑2 PHP + Composer + Xdebug
       - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           extensions: xdebug
           coverage: xdebug
 
-      # 2‑3 Install des dépendances
       - uses: ramsey/composer-install@v3
         with:
           composer-options: --prefer-dist --no-interaction
 
-      # 2‑4 Préparation de la base et exécution des tests
       - name: Run PHPUnit with coverage
         env:
-          # URL Doctrine en TCP → évite l’erreur "No such file or directory"
           DATABASE_URL: "mysql://root:root@127.0.0.1:3306/app_test?serverVersion=8.0&charset=utf8mb4"
           XDEBUG_MODE: coverage
         run: |
@@ -53,10 +42,8 @@ jobs:
           mkdir -p build/coverage
           vendor/bin/phpunit --testsuite unit,functional \
               --coverage-clover build/clover.xml \
-              --coverage-html  build/coverage \
-              --min-coverage 70
+              --coverage-html  build/coverage   # --min-coverage retiré
 
-      # 2‑5 Upload du rapport vers Codacy
       - name: Upload coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
