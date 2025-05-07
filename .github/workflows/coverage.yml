@@ -1,24 +1,41 @@
-name: CI – tests & coverage
+name: CI – Symfony tests & Codacy coverage
 
 on: [push, pull_request]
 
 jobs:
   coverage:
     runs-on: ubuntu-latest
+
     steps:
+      # 0) Récupération du code
       - uses: actions/checkout@v4
 
-      # Si votre projet est VRAIMENT en Node :
-      - uses: actions/setup-node@v4
+      # 1) Installe PHP + Composer + Xdebug
+      - uses: shivammathur/setup-php@v2
         with:
-          node-version: 20
+          php-version: '8.2'          # ou 8.3 si votre prod le permet
+          extensions: xdebug          # nécessaire pour la couverture
+          coverage: xdebug            # active xdebug --coverage
 
-      - run: |
-          npm install                         # ← remplace npm ci
-          npm test -- --coverage --coverageReporters=cobertura
+      # 2) Dépendances
+      - uses: ramsey/composer-install@v3   # install --no-dev est OK, PHPUnit est déjà en dev
+        with:
+          composer-options: --prefer-dist --no-interaction
 
+      # 3) Cache clear + tests + couverture Clover (70 % mini)
+      - name: Run PHPUnit suites
+        run: |
+          mkdir -p build/coverage
+          export XDEBUG_MODE=coverage     # équivalent Linux de SET ...
+          php bin/console cache:clear --env=test --no-debug
+          vendor/bin/phpunit --testsuite unit,functional \
+              --coverage-clover build/clover.xml \
+              --coverage-html  build/coverage \
+              --min-coverage 70
+
+      # 4) Upload vers Codacy
       - name: Upload coverage to Codacy
         uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: coverage/cobertura-coverage.xml
+          coverage-reports: build/clover.xml
