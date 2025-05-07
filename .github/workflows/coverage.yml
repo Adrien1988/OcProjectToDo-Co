@@ -49,4 +49,5 @@ jobs:
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: build/clover.xml
-          branch: ${{ github.head_ref }}
+          branch: ${{ github.ref_name }}
+          commit: ${{ github.sha }}
