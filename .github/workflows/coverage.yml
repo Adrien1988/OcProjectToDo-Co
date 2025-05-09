@@ -1,0 +1,53 @@
+name: CI – Symfony 6.4 / PHPUnit 10 / Codacy coverage
+
+on: [push, pull_request]
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: app_test
+        ports: ['3306:3306']
+        options: >-
+          --health-cmd="mysqladmin ping --silent"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: xdebug
+          coverage: xdebug
+
+      - uses: ramsey/composer-install@v3
+        with:
+          composer-options: --prefer-dist --no-interaction
+
+      - name: Run PHPUnit with coverage
+        env:
+          DATABASE_URL: "mysql://root:root@127.0.0.1:3306/app_test?serverVersion=8.0&charset=utf8mb4"
+          XDEBUG_MODE: coverage
+        run: |
+          php bin/console doctrine:database:create --env=test --if-not-exists
+          php bin/console doctrine:schema:create  --env=test --no-interaction
+          mkdir -p build/coverage
+          vendor/bin/phpunit --testsuite unit,functional \
+              --coverage-clover build/clover.xml \
+              --coverage-html  build/coverage   # --min-coverage retiré
+
+      - name: Upload coverage to Codacy
+        uses: codacy/codacy-coverage-reporter-action@v1.3.0
+        with:
+          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+          coverage-reports: build/clover.xml
+          branch: ${{ github.ref_name }}
+          commit: ${{ github.sha }}

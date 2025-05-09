@@ -1,0 +1,6 @@
+framework:
+  asset_mapper:
+    paths:
+      'assets/img':    img
+      'assets/styles': styles
+      'assets/js':     js     # même s’il est vide
