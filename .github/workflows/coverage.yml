@@ -20,15 +20,15 @@ jobs:
           --health-retries=3
 
     steps:
-      - uses: actions/checkout@8ade135a41bc03ea155e62e844d188df1ea18608 # v4.1.7
+      - uses: actions/checkout@v4
 
-      - uses: shivammathur/setup-php@67d651e4196f7eaa0a8c42cc56f93588e1fbd05c # v2.29.0
+      - uses: shivammathur/setup-php@v2
         with:
           php-version: '8.2'
           extensions: xdebug
           coverage: xdebug
 
-      - uses: ramsey/composer-install@6d3a448e9bf7a7dfb754bc7df03f0484e7958d5b # v3.0.0
+      - uses: ramsey/composer-install@v3
         with:
           composer-options: --prefer-dist --no-interaction
 
@@ -42,10 +42,10 @@ jobs:
           mkdir -p build/coverage
           vendor/bin/phpunit --testsuite unit,functional \
               --coverage-clover build/clover.xml \
-              --coverage-html  build/coverage
+              --coverage-html  build/coverage   # --min-coverage retiré
 
       - name: Upload coverage to Codacy
-        uses: codacy/codacy-coverage-reporter-action@a6ec055b57272cb3a9c7cc36d0c47c7e07e05c38 # v1.3.0
+        uses: codacy/codacy-coverage-reporter-action@v1.3.0
         with:
           project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
           coverage-reports: build/clover.xml
