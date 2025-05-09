@@ -1,15 +1,23 @@
+# config/packages/test/doctrine.yaml
 doctrine:
   dbal:
-    driver: 'pdo_sqlite'
-    url: 'sqlite:///:memory:'
+    default_connection: default
+    connections:
+      default:
+        driver: 'pdo_sqlite'
+        # chemin vers le fichier SQLite
+        path: '%kernel.project_dir%/var/data_test.db'
+        # on désactive le pool pour SQLite
+        url: null
+
   orm:
-    # mêmes mappings que ta conf “normale”
     auto_generate_proxy_classes: true
-    naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
-    mappings:
-      AppEntity:
-        is_bundle: false
-        type: annotation
-        dir: '%kernel.project_dir%/src/Entity'
-        prefix: 'App\Entity'
-        alias: App
+    entity_managers:
+      default:
+        mappings:
+          App:
+            is_bundle: false
+            type: attribute
+            dir: '%kernel.project_dir%/src/Entity'
+            prefix: 'App\Entity'
+            alias: App

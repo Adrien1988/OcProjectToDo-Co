@@ -6,14 +6,14 @@
     <div class="ms-auto">
 
     {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('user_list') }}" class="btn btn-outline-primary me-3">
+        <a href="{{ path('admin_user_list') }}" class="btn btn-outline-primary me-3">
           Utilisateurs
         </a>
       {% endif %}
       
       {# Si l’utilisateur **n’est pas** connecté, on propose S’enregistrer et Se connecter #}
       {% if not app.user %}
-        <a href="{{ path('user_create') }}" class="btn btn-primary me-2">S’enregistrer</a>
+        <a href="{{ path('app_register') }}" class="btn btn-primary me-2">S’enregistrer</a>
 
         {# On n’affiche pas le bouton de connexion sur la page de login #}
         {% if app.request.attributes.get('_route') != 'login' %}
@@ -21,7 +21,7 @@
         {% endif %}
       {% else %}
         {# Si l’utilisateur est connecté, on propose uniquement Se déconnecter #}
-        <a href="{{ path('logout') }}" class="btn btn-danger">Se déconnecter</a>
+        <a href="{{ path('app_logout') }}" class="btn btn-danger">Se déconnecter</a>
       {% endif %}
     </div>
   </div>

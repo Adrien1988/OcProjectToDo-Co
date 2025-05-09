@@ -1,0 +1,58 @@
+{# templates/user/edit.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block page_title %}
+  <h1>
+    Modifier le profil&nbsp;: <strong>{{ user.username }}</strong>
+  </h1>
+{% endblock %}
+
+{% block body %}
+  <div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+
+        {{ form_start(form, { action: path('admin_user_edit', { id: user.id }) }) }}
+
+          <div class="mb-3">
+            {{ form_row(form.username, {
+              label: 'Nom d’utilisateur',
+              attr: { class: 'form-control', placeholder: 'Nom d’utilisateur' }
+            }) }}
+          </div>
+
+          <div class="mb-3">
+            {{ form_row(form.email, {
+              label: 'Adresse e-mail',
+              attr: { class: 'form-control', placeholder: 'E-mail' }
+            }) }}
+          </div>
+
+          <div class="mb-3">
+            {{ form_row(form.password, {
+              label: 'Nouveau mot de passe',
+              attr: { class: 'form-control', placeholder: 'Laisser vide pour ne pas changer' }
+            }) }}
+          </div>
+
+          {% if form.roles is defined %}
+            <div class="mb-4">
+              {{ form_row(form.roles, { label: 'Rôle' }) }}
+            </div>
+          {% endif %}
+
+          <div class="d-flex justify-content-between">
+            <a href="{{ path('admin_user_list') }}" class="btn btn-outline-secondary">
+              ← Retour à la liste
+            </a>
+            <button type="submit" class="btn btn-success">
+              Enregistrer
+            </button>
+          </div>
+
+        {{ form_end(form) }}
+
+      </div>
+    </div>
+  </div>
+{% endblock %}

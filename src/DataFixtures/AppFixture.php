@@ -1,18 +1,23 @@
 <?php
 
-// src/DataFixtures/AppFixture.php
-
 namespace App\DataFixtures;
 
 use App\Entity\Task;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Bundle\FixturesBundle\FixtureGroupInterface;
 use Doctrine\Persistence\ObjectManager;
 use Faker\Generator;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-class AppFixture extends Fixture
+class AppFixture extends Fixture implements FixtureGroupInterface
 {
+
+
+    public static function getGroups(): array
+    {
+        return ['dev'];
+    }
 
 
     public function __construct(private readonly UserPasswordHasherInterface $hasher,
