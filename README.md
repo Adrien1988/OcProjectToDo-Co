@@ -14,13 +14,14 @@ Assurez-vous d’avoir installé localement :
 - MySQL 8 ou MariaDB
 - Git
 
-### 📦 Récupération du projet
+1 Récupération du projet
 
 ```bash
 git clone https://github.com/Adrien1988/OcProjectToDo-Co.git
 cd OcProjectToDo-Co
 ```
-📁 Configuration de l’environnement
+
+2 Configuration de l’environnement
 Copiez le fichier .env de base et adaptez la configuration :
 
 ```bash
@@ -33,33 +34,41 @@ Dans le fichier .env.local, renseignez l’URL de connexion à la base :
 DATABASE_URL="mysql://root:root@127.0.0.1:3306/app?serverVersion=8.0&charset=utf8mb4"
 ```
 
-💾 Installation des dépendances PHP
+3 Installation des dépendances PHP
 
 ```bash
 composer install
 ```
 
-🛠️ Création de la base de données
+4 Création de la base de données
 
 ```bash
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 ```
 
-🔐 Connexion à un compte administrateur (déjà fourni)
+5 Génération des données 
+
+```bash
+php bin/console doctrine:fixtures:load
+```
+
+6 Connexion à un compte administrateur (déjà fourni)
 Un utilisateur administrateur est déjà disponible via les fixtures Doctrine :
 
 Nom d’utilisateur : admin
 
 Mot de passe : root
 
-🔄 Si besoin, vous pouvez recharger les fixtures en exécutant :
+7 Connexion à un compte user (déjà fourni)
+Un utilisateur lambda est déjà disponible via les fixtures Doctrine : 
 
-```bash
-php bin/console doctrine:fixtures:load
-```
+Nom d'utilisateur : john
 
-🧪 Lancement des tests
+Mot de passe : user
+
+
+8 Lancement des tests
 Les tests sont déjà configurés dans les scripts Composer. Tu peux les exécuter simplement via :
 
 ```bash
@@ -90,7 +99,7 @@ php -S 127.0.0.1:8000 -t public/
 ```
 Accédez à l’application via : http://127.0.0.1:8000
 
-📂 Structure principale du projet
+9 Structure principale du projet
 src/ – Code source (Contrôleurs, Entités, Sécurité…)
 
 templates/ – Vues Twig
@@ -102,8 +111,7 @@ public/ – Front controller (index.php)
 tests/ – Tests fonctionnels et unitaires
 
 migrations/ – Historique des migrations Doctrine
-
-👥 Contribution
+10 Contribution
 Consultez le fichier CONTRIBUTING.md pour connaître les règles de contribution, les standards qualité et le processus de validation des Pull Requests.
 
 📈 Suivi qualité et couverture
