@@ -50,7 +50,7 @@ php bin/console doctrine:migrations:migrate
 5 Génération des données 
 
 ```bash
-php bin/console doctrine:fixtures:load
+php bin/console doctrine:fixtures:load --group=AppFixture
 ```
 
 6 Connexion à un compte administrateur (déjà fourni)
