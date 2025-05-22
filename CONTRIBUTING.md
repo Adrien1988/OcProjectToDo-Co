@@ -6,15 +6,7 @@ Voici les étapes à suivre pour contribuer efficacement :
 
 1. Cloner et configurer le projet localement
 
-```bash
-git clone https://github.com/Adrien1988/OcProjectToDo-Co.git
-cd OcProjectToDo-Co
-composer install
-cp .env .env.local # Complétez DATABASE_URL avec votre configuration
-symfony console doctrine:database:create --if-not-exists
-symfony console doctrine:migrations:migrate
-symfony serve -d
-```
+Voir le README pour l'installation de l'application en local.
 
 2. Créer une branche dédiée à votre modification
 Le nom de la branche doit respecter le format suivant :
