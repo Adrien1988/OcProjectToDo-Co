@@ -32,12 +32,26 @@
 
 						{# — Actions — #}
 						<div class="card-footer bg-transparent border-0 d-flex justify-content-between">
-							<form action="{{ path('task_toggle', { id: task.id }) }}" method="post">
-								<button class="btn btn-sm btn-outline-{{ task.isDone ? 'warning' : 'success' }}">
-									{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée
+							{% set isAuthor = app.user and task.author == app.user %}
+							{% set isAdmin = app.user and 'ROLE_ADMIN' in app.user.roles %}
+							{% set isAnonymousTask = task.author and task.author.username == 'anonyme' %}
+
+							{% if isAuthor or (isAdmin and isAnonymousTask) %}
+								<form action="{{ path('task_toggle', { id: task.id }) }}" method="post">
+									<button class="btn btn-sm btn-outline-{{ task.isDone ? 'warning' : 'success' }}">
+										{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée
+										{% endif %}
+									</button>
+								</form>
+							{% else %}
+								<span class="badge bg-{{ task.isDone ? 'warning' : 'secondary' }}">
+									{% if task.isDone %}
+										Terminée
+									{% else %}
+										Non terminée
 									{% endif %}
-								</button>
-							</form>
+								</span>
+							{% endif %}
 							<form action="{{ path('task_delete', { id: task.id }) }}" method="post">
 								{% if is_granted('TASK_DELETE', task) %}
 									<button class="btn btn-sm btn-danger">Supprimer</button>
