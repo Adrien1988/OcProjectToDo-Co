@@ -39,7 +39,7 @@
 							{% if isAuthor or (isAdmin and isAnonymousTask) %}
 								<form action="{{ path('task_toggle', { id: task.id }) }}" method="post">
 									<button class="btn btn-sm btn-outline-{{ task.isDone ? 'warning' : 'success' }}">
-										{% if not task.isDone %}Marquer comme faite{% else %}Marquer non terminée
+										{% if not task.isDone %}Marquer comme faite{% else %}Marquer terminée
 										{% endif %}
 									</button>
 								</form>

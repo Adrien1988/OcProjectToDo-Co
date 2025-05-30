@@ -3,6 +3,7 @@
 /public/assets/
 /public/build/*
 !/public/build/manifest.json
+!/public/build/coverage
 ###< symfony/asset-mapper ###
 
 ###> symfony/framework-bundle ###
